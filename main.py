@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from typing import Optional
+from typing import Optional, Any
 from fastapi.param_functions import Body
 
 from pydantic import BaseModel
@@ -27,7 +27,7 @@ class IndexResponseModel(BaseModel):
 
 class V1ResponseModel(BaseModel):
     status_code: int = 200
-    payload: dict = {}
+    payload: Any
 
 
 # Routes
