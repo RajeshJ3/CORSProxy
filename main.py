@@ -28,6 +28,7 @@ class IndexResponseModel(BaseModel):
 class V1ResponseModel(BaseModel):
     status_code: int = 200
     payload: Any
+    text: Any
 
 
 # Routes
@@ -85,14 +86,23 @@ def version1(
 
         status_code = response.status_code if response.status_code else 200
 
+        payload = None
+        text = None
+        try: payload = response.json()
+        except: ...
+        try: text = response.text
+        except: ...
+
         return {
             'status_code': status_code,
-            'payload': response.json()
+            'payload': payload,
+            'text': text
         }
-    except:
+    except Exception as e:
         return {
             'status_code': 500,
             'payload': {
-                'detail': 'Internal Server Error'
+                'message': 'Internal Server Error',
+                'detail': str(e)
             }
         }
