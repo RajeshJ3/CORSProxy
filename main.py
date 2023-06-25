@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from typing import Optional, Any
+from typing import Optional, Any, Union
 from fastapi.param_functions import Body
 
 from pydantic import BaseModel
@@ -57,7 +57,12 @@ def version1(
         title='Query Params',
         description='Valid key-value pairs'
         ),
-    data: Optional[dict] = Body(
+    data: Optional[Union[dict, str]] = Body(
+        None,
+        title='Request Body/Payload',
+        description='Valid string'
+        ),
+    json_data: Optional[dict] = Body(
         None,
         title='Request Body/Payload',
         description='Valid JSON'
@@ -80,6 +85,7 @@ def version1(
             url=url,
             params=params,
             data=data,
+            json=json_data,
             headers=headers,
             cookies=cookies,
         )
